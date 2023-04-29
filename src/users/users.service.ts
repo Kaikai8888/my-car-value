@@ -9,10 +9,18 @@ export class UsersService {
   constructor(@InjectRepository(User) private repo: Repository<User>) {}
 
   create(email: string, password: string) {
-    const user = this.repo.create({ email, password }) /* 
+    const user = this.repo.create({ email, password }); /* 
     create an instance of user entity
     當我們有定義schema驗證邏輯在dto內時，create時會進行驗證*/
 
-    return this.repo.save(user) //存入db
+    return this.repo.save(user); //存入db
+  }
+
+  findOne(id: number) {
+    return this.repo.findOneBy({ id });
+  }
+
+  find(email: string) {
+    return this.repo.find({ where: { email } });
   }
 }
