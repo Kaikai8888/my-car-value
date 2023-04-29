@@ -23,4 +23,22 @@ export class UsersService {
   find(email: string) {
     return this.repo.find({ where: { email } });
   }
+
+  async update(id: number, attrs: Partial<User>) {  //Partial<T>: Constructs a type with all properties of Type set to optional
+    // to update an instance of entity to trigger hook
+    const user = await this.findOne(id);
+    if (!user) {
+      throw new Error('user not found')
+    }
+    Object.assign(user, attrs)
+    return this.repo.save(user)
+  }
+
+  async delete(id: number) {
+    const user = await this.findOne(id);
+    if (!user) {
+      throw new Error('user not found')
+    }
+    return this.repo.remove(user)
+  }
 }
